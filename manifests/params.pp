@@ -34,8 +34,19 @@ class jenkins_job_builder::params {
       }
     }
     'debian': {
-      $python_packages = ['python', 'python-dev', 'python-pip', 'python-yaml']
-      $jjb_packages    = ['jenkins-job-builder']
+      if $facts['os']['name'] == 'Ubuntu' {
+        # making the assumption that 16 is minimal support at this point.
+        if $facts['os']['release']['full'] !~ '^16' {
+          $python_packages = [ 'python3', 'python3-pip', 'python3-yaml' ]
+        } else {
+          $python_packages = [ 'python', 'python-dev', 'python-pip', 'python-yaml' ]
+        }
+
+        $jjb_packages = [ 'jenkins-job-builder' ]
+      } else {
+        $python_packages = ['python', 'python-dev', 'python-pip', 'python-yaml']
+        $jjb_packages    = ['jenkins-job-builder']
+      }
     }
     default: {
       fail("${facts['os']['name']} not supported")
