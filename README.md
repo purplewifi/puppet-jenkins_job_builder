@@ -106,6 +106,11 @@ avoid issues where Jenkins restarts during a puppet run.
 The name of the jenkins service to restart when configuration changes are made.
 Defaults to 'jenkins'
 
+##### Define: `jenkins_job_builder::defaults`
+
+Defaults is fully passed through to a file called `/tmp/jenkins-defaults.yaml`
+with a parameter of `name: globals`, to match the [documentation provided](https://jenkins-job-builder.readthedocs.io/en/latest/definition.html#defaults)
+
 ## Reference
 
 ### Classes
@@ -128,6 +133,7 @@ This module is tested on the following platforms:
 * CentOS 6
 * Ubuntu 13.10
 * Ubuntu 14.04
+* Ubuntu 22.04 (Puppet 7)
 
 It is tested with the OSS version of Puppet only.
 
