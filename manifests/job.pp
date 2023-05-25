@@ -84,7 +84,7 @@ define jenkins_job_builder::job (
       content => $content,
       notify  => Exec["manage jenkins job - ${name}"],
     }
-    $jjbcmd = "${jjb_prefix} update /tmp/jenkins-${name}.yaml"
+    $jjbcmd = "${jjb_prefix} update /tmp/jenkins-${name}.yaml:/tmp/jenkins-defaults.yaml"
   }
 
   if $idempotence {
