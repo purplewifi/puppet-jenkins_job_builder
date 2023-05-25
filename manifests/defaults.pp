@@ -20,7 +20,7 @@
 #                - shell: "echo 'yay!'"
 #
 class jenkins_job_builder::defaults (
-  $config
+  $config = $jenkins_job_builder::defaults
 ) {
   $defaults = merge({
       'name' => 'global',
