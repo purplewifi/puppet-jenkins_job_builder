@@ -79,5 +79,6 @@ class jenkins_job_builder::config (
     require => File['/etc/jenkins_jobs/jenkins_jobs.ini'],
   }
 
+  contain jenkins_job_builder::defaults
   create_resources('jenkins_job_builder::job', $jobs)
 }
