@@ -64,7 +64,7 @@ class jenkins_job_builder (
   Boolean $install_from_pkg  = $jenkins_job_builder::params::install_from_pkg,
   String $git_revision       = $jenkins_job_builder::params::git_revision,
   String $git_url            = $jenkins_job_builder::params::git_url,
-
+  String $tmp_dir            = $jenkins_job_builder::params::tmp_dir,
 ) inherits jenkins_job_builder::params {
   if count([$install_from_git, $install_from_pkg], true) > 1 {
     fail("A single primary install source must be selected for ${name}")

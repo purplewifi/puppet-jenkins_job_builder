@@ -22,6 +22,7 @@ class jenkins_job_builder::params {
   $install_from_pkg = false
   $git_revision     = 'master'
   $git_url          = 'https://git.openstack.org/openstack-infra/jenkins-job-builder'
+  $tmp_dir = '/tmp/jjb'
 
   case $facts['os']['family'] {
     'RedHat', 'Amazon': {

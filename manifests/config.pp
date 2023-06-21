@@ -13,7 +13,8 @@ class jenkins_job_builder::config (
   $password = $jenkins_job_builder::password,
   $timeout  = $jenkins_job_builder::timeout,
   $hipchat_token = $jenkins_job_builder::hipchat_token,
-  $jenkins_url = $jenkins_job_builder::jenkins_url
+  $jenkins_url = $jenkins_job_builder::jenkins_url,
+  $tmp_dir = $jenkins_job_builder::tmp_dir,
 ) {
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
@@ -21,6 +22,18 @@ class jenkins_job_builder::config (
 
   file { '/etc/jenkins_jobs':
     ensure => directory,
+  }
+
+  file { 'ensure jjb tmp dir':
+    ensure => directory,
+    path   => $tmp_dir,
+  }
+
+  # Clean up jenkins- files from the tmp dir, just in case any jobs have been
+  # removed. This allows crons to maintain/revert the jobs in jenkins, to match
+  # expectations in code.
+  exec { 'clean jjb tmp dir':
+    command => "/bin/bash -c 'rm -f ${tmp_dir}/jenkins-*.yaml'",
   }
 
   file { '/etc/jenkins_jobs/jenkins_jobs.ini':

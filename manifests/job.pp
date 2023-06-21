@@ -61,6 +61,7 @@ define jenkins_job_builder::job (
   $try_sleep = '15',
   $jenkins_job_dir = '/var/lib/jenkins/jobs',
   $idempotence = false,
+  $tmp_dir = $jenkins_job_builder::tmp_dir,
 ) {
   if $delay != 0 {
     notice('The delay parameter has been replaced by retry functionality, and will be removed in a future release')
@@ -79,17 +80,17 @@ define jenkins_job_builder::job (
     } else {
       $content = $job_yaml
     }
-    file { "/tmp/jenkins-${name}.yaml":
+    file { "${tmp_dir}/jenkins-${name}.yaml":
       ensure  => file,
       content => $content,
       notify  => Exec["manage jenkins job - ${name}"],
     }
-    $jjbcmd = "${jjb_prefix} update /tmp/jenkins-${name}.yaml:/tmp/jenkins-defaults.yaml"
+    $jjbcmd = "${jjb_prefix} update ${tmp_dir}/jenkins-${name}.yaml:/tmp/jenkins-defaults.yaml"
   }
 
   if $idempotence {
     $xmllint_cmd = '/bin/xmllint --c14n'
-    $unless_cmd  = "/bin/bash -c '/bin/diff <(${xmllint_cmd} ${jenkins_job_dir}/${name}/config.xml || echo '') <(${jjb_prefix} test /tmp/jenkins-${name}.yaml|${xmllint_cmd} - )'"
+    $unless_cmd  = "/bin/bash -c '/bin/diff <(${xmllint_cmd} ${jenkins_job_dir}/${name}/config.xml || echo '') <(${jjb_prefix} test ${tmp_dir}/jenkins-${name}.yaml|${xmllint_cmd} - )'"
     $refreshonly = undef
   } else {
     $unless_cmd  = undef
