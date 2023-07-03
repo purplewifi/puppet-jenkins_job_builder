@@ -29,13 +29,6 @@ class jenkins_job_builder::config (
     path   => $tmp_dir,
   }
 
-  # Clean up jenkins- files from the tmp dir, just in case any jobs have been
-  # removed. This allows crons to maintain/revert the jobs in jenkins, to match
-  # expectations in code.
-  exec { 'clean jjb tmp dir':
-    command => "/bin/bash -c 'rm -f ${tmp_dir}/jenkins-*.yaml'",
-  }
-
   file { '/etc/jenkins_jobs/jenkins_jobs.ini':
     ensure  => file,
     require => File['/etc/jenkins_jobs'],
