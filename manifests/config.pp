@@ -8,7 +8,7 @@
 # It sets the global ini file used by jenkins_job_builder
 #
 class jenkins_job_builder::config (
-  $jobs = $jenkins_job_builder::jobs,
+  $jobs = lookup('jenkins_job_builder::jobs', Optional[Hash], 'deep', $jenkins_job_builder::jobs),
   $user = $jenkins_job_builder::user,
   $password = $jenkins_job_builder::password,
   $timeout  = $jenkins_job_builder::timeout,
