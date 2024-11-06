@@ -53,7 +53,7 @@
 class jenkins_job_builder (
   $version                   = $jenkins_job_builder::params::version,
   Hash $defaults             = $jenkins_job_builder::params::defaults,
-  Hash $jobs                 = $jenkins_job_builder::params::jobs,
+  Hash $jobs                 = lookup('jenkins_job_builder::jobs', Optional[Hash], 'deep', $jenkins_job_builder::params::jobs),
   Optional[String] $user     = $jenkins_job_builder::params::user,
   Optional[String] $password = $jenkins_job_builder::params::password,
   Optional[Integer] $timeout = $jenkins_job_builder::params::timeout,
